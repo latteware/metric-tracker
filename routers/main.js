@@ -4,7 +4,8 @@ const co = require('co')
 const mainRouter = Router()
 
 mainRouter.get('/',co.wrap(function *(ctx, next){
-	ctx.body = 'root'
+	ctx.type = 'text/html'
+	ctx.body = 'Visit <a href="https://github.com/latteware/metric-tracker">this link</a> for the docs'
 }))
 
 const metrics = require('./metrics')

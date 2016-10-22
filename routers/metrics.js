@@ -14,12 +14,14 @@ metricsRouter.use(co.wrap(function *(ctx, next){
 }))
 
 metricsRouter.get('/',co.wrap(function *(ctx, next){
-	const keys = yield redisClient.keys('metrics:*')
+	const keys = yield redisClient.keys('metrics:*!')
 
-	if(!keys){return ctx.body = {}}
+	console.log(keys)
+
+	if(_.isEmpty(keys)){return ctx.body = {}}
 	const metrics = yield redisClient.mget(keys)
 
-	ctx.body = _.zipObject(keys, metrics)
+	ctx.body = _.zipObject(keys.map( key => key.replace('metrics:', '').replace(/!/g, '') ), metrics)
 }))
 
 metricsRouter.get('/:metricKey',co.wrap(function *(ctx, next){
@@ -29,13 +31,13 @@ metricsRouter.get('/:metricKey',co.wrap(function *(ctx, next){
 
 	if(_.isEmpty(keys)){return ctx.body = {}}
 	const metrics = yield redisClient.mget(keys)
-	const data = _.zipObject(keys, metrics)
-	const total = data[`metrics:${baseKey}`]
-	delete data[`metrics:${baseKey}`]
+	const data = _.zipObjectDeep( keys , metrics)
+	const details = data[`metrics:${baseKey}`]
+	const total = data[`metrics:${baseKey}!`]
 
 	ctx.body = {
-		total : total,
-		keys: data
+		details : details,
+		total: total
 	}
 }))
 
@@ -46,13 +48,13 @@ metricsRouter.post('/:metricKey',co.wrap(function *(ctx, next){
 
 	console.log('=> inside increment', ctx.params.metricKey, keys)
 
-	yield redisClient.incr(`metrics:${baseKey}`)
-	yield redisClient.expire(`metrics:${baseKey}`, expireTime)
+	yield redisClient.incr(`metrics:${baseKey}!`)
+	yield redisClient.expire(`metrics:${baseKey}!`, expireTime)
 
 	if(keys){
 		for(var key of keys){			
-			yield redisClient.incr(`metrics:${baseKey}:${key}`)
-			yield redisClient.expire(`metrics:${baseKey}:${key}`, expireTime)
+			yield redisClient.incr(`metrics:${baseKey}.${key}`)
+			yield redisClient.expire(`metrics:${baseKey}.${key}`, expireTime)
 		}
 	}
 
