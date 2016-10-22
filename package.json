@@ -1,0 +1,29 @@
+{
+  "name": "metrics-server",
+  "version": "0.0.1",
+  "description": "Latteware metrics server",
+  "main": "runner.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bunyan": "^1.8.1",
+    "co": "^4.6.0",
+    "koa": "^2.0.0-alpha.7",
+    "koa-bodyparser": "^2.2.0",
+    "koa-convert": "^1.2.0",
+    "koa-router": "^7.0.1",
+    "lodash": "^4.16.4",
+    "nunjucks": "^2.5.2",
+    "redis": "^2.6.2",
+    "redis-commands": "^1.2.0",
+    "then-redis": "^2.0.1",
+    "thunkify": "^2.1.2",
+    "yet-another-nunjucks-koa-render": "^1.1.0"
+  },
+  "devDependencies": {
+    "request": "^2.75.0"
+  }
+}
