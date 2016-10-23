@@ -1,3 +1,5 @@
+require('./loadenv')
+
 const logger = require('./lib/logger')
 const server = require('./server.js')
 

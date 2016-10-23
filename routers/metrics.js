@@ -3,7 +3,7 @@ const co = require('co')
 const _ = require('lodash')
 
 const redisClient = require('../lib/redis')
-const expireTime = 60 * 60 * 24 * 3
+const expireTime = process.env.TTL
 
 const metricsRouter = Router({
 	prefix: '/metrics'
@@ -15,8 +15,6 @@ metricsRouter.use(co.wrap(function *(ctx, next){
 
 metricsRouter.get('/',co.wrap(function *(ctx, next){
 	const keys = yield redisClient.keys('metrics:*!')
-
-	console.log(keys)
 
 	if(_.isEmpty(keys)){return ctx.body = {}}
 	const metrics = yield redisClient.mget(keys)
@@ -45,8 +43,6 @@ metricsRouter.post('/:metricKey',co.wrap(function *(ctx, next){
 	const body = ctx.request.body
 	const keys = body.keys
 	const baseKey = ctx.params.metricKey
-
-	console.log('=> inside increment', ctx.params.metricKey, keys)
 
 	yield redisClient.incr(`metrics:${baseKey}!`)
 	yield redisClient.expire(`metrics:${baseKey}!`, expireTime)
