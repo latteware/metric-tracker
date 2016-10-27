@@ -11,6 +11,7 @@
   "dependencies": {
     "bunyan": "^1.8.1",
     "co": "^4.6.0",
+    "dotenv": "^2.0.0",
     "koa": "^2.0.0-alpha.7",
     "koa-bodyparser": "^2.2.0",
     "koa-convert": "^1.2.0",
