@@ -13,7 +13,6 @@ supervisor runner.js | bunyan
 
 ```
 
-
 ### Create a metric
 
 ```
@@ -71,3 +70,11 @@ curl -H "Content-Type: application/json" -X POST -d '{"keys":["user.JGbgvo8E4C",
 Using dot on the metrics allows to create metrics in a object form, based on Lodash [ZipObjectDeep](https://lodash.com/docs/4.16.4#zipObjectDeep)
 
 All metric values are store in redis with a ttl(time to live) of 3 days.
+
+## To Dos
+
+- Add Auth to request with a user, token file
+- Add config for redis and mongo dbs
+- Add Mongo action tracket over redis condenced metrics
+- Add tests for actions and metrics
+

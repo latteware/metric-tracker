@@ -11,4 +11,7 @@ mainRouter.get('/',co.wrap(function *(ctx, next){
 const metrics = require('./metrics')
 mainRouter.use( metrics.routes(), metrics.allowedMethods() )
 
+const actions = require('./actions')
+mainRouter.use( actions.routes(), actions.allowedMethods() )
+
 module.exports = mainRouter
