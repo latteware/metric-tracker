@@ -1,6 +1,8 @@
 const logger = require('../lib/logger')
 
 module.exports = function *(ctx, next) {
+
+
 	try {
 		yield next()
 	} catch (err) {
@@ -21,32 +23,16 @@ module.exports = function *(ctx, next) {
 			ctx.app.emit('error', err, ctx)
 		}
 
-		// json
-		if (ctx.request.headers['content-type'] === 'application/json') {
-			ctx.body = { error: err.message }
-			return
-		}
-
-		// html
 		if (process.env.NODE_ENV === 'production') {
-			yield ctx.render('public/errors', {
-				status: ctx.status
-			})
+			ctx.body = {error:err.message}
 		} else {
-			ctx.body = err.stack
+			ctx.body = {error:err.stack}
 		}
 	}
 
 	// Unhandle 404
 	if(ctx.status === 404){
-		if (process.env.NODE_ENV === 'production') {
-			ctx.status = 404
-			yield ctx.render('public/errors', {
-				status: ctx.status
-			})
-		} else {
-			ctx.status = 404
-			ctx.body = 'Not found'
-		}
+		ctx.status = 404
+		ctx.body = {error:'Not found'}
 	}
 }
