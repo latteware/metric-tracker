@@ -5,6 +5,7 @@ const convert = require('koa-convert')
 
 const errorHandler = require('./middlewares/errorHandler')
 const logger = require('./middlewares/logger')
+const auth = require('./middlewares/auth')
 
 const server = new Koa()
 
@@ -15,7 +16,10 @@ server.use( convert( bodyParser() ) )
 server.use( co.wrap(errorHandler) )
 
 // Logs response time and status
-server.use( convert(logger) )
+server.use( logger )
+
+// Checks request headers
+server.use( auth )
 
 // Loads app routers
 const mainRouter = require('./routers/main')

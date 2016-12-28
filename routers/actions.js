@@ -2,7 +2,6 @@ const Router = require('koa-router')
 const co = require('co')
 const _ = require('lodash')
 const moment = require('moment')
-const PassThrough = require('stream').PassThrough
 
 const redisClient = require('../lib/redis')
 const expireTime = process.env.TTL
