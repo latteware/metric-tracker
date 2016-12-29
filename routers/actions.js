@@ -4,10 +4,11 @@ const _ = require('lodash')
 const moment = require('moment')
 
 const redisClient = require('../lib/redis')
-const expireTime = process.env.TTL
+const expireTime = process.env.METRICS_TTL
 
 const db = require('../lib/mongo')
 const Action = db.model('Action')
+const Owner = db.model('Owner')
 
 const actionsRouter = Router({
 	prefix: '/actions'
@@ -86,9 +87,13 @@ actionsRouter.get('/type/:type',co.wrap(function *(ctx, next){
 
 actionsRouter.post('/:owner/:type',co.wrap(function *(ctx, next){
 	const body = ctx.request.body
-
-	const owner = ctx.params.owner
 	const type = ctx.params.type
+
+	var owner = yield Owner.findOne({_id: ctx.params.owner})
+	if(!owner){
+		owner = new Owner({_id: ctx.params.owner})
+		yield owner.save()
+	}
 
 	// Array
 	const metrics = body.metrics || []

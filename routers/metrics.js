@@ -3,7 +3,7 @@ const co = require('co')
 const _ = require('lodash')
 
 const redisClient = require('../lib/redis')
-const expireTime = process.env.TTL
+const expireTime = process.env.METRICS_TTL
 
 const metricsRouter = Router({
 	prefix: '/metrics'
