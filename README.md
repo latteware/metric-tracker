@@ -73,11 +73,11 @@ All metric values are store in redis with a ttl(time to live) of 3 days.
 
 ## To Dos
 
-- [Done]Add Mongo action tracket over redis condenced metrics
-- [Done]Add Mongo owner to group actions
-- [Done]Add Auth to request with a user, token file
-- [Done]Add env errors for prod and for dev
-- Add config for redis and mongo dbs
+- [DONE]Add Mongo action tracket over redis condenced metrics
+- [DONE]Add Mongo owner to group actions
+- [DONE]Add Auth to request with a user, token file
+- [DONE]Add env errors for prod and for dev
+- [DONE]Add config for redis and mongo dbs
 - Add owner data
 - Add max and incremet operations owner data
 - Add tests for actions and metrics
